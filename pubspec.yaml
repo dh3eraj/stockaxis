@@ -25,7 +25,6 @@ dependencies:
   build_runner: ^2.4.15
   flutter_bloc: ^9.1.0
   flutter_svg: ^2.0.17
-  flutter_widget_from_html: ^0.16.0
 
 dev_dependencies:
   flutter_test:

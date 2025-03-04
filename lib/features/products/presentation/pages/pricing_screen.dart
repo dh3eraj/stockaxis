@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stockaxis/features/products/data/models/pricing_model.dart';
@@ -13,7 +11,8 @@ class PricingScreen extends StatefulWidget {
   State<PricingScreen> createState() => _PricingScreenState();
 }
 
-class _PricingScreenState extends State<PricingScreen> with AutomaticKeepAliveClientMixin  {
+class _PricingScreenState extends State<PricingScreen>
+    with AutomaticKeepAliveClientMixin {
   late final ProductsCubit _cubit;
   List<PricingModel> _products = [];
   final List<PricingModel> _selectedProducts = [];
@@ -95,8 +94,6 @@ class _PricingScreenState extends State<PricingScreen> with AutomaticKeepAliveCl
                 );
               },
               builder: (context, state) {
-                log('state : ${state.runtimeType}');
-
                 return state.maybeWhen(
                   loadingPricing: () {
                     return Center(child: CircularProgressIndicator.adaptive());
@@ -108,10 +105,6 @@ class _PricingScreenState extends State<PricingScreen> with AutomaticKeepAliveCl
                         return ProductContainer(
                           item: _products[index],
                           onChanged: (selected, item, oldAmount, newAmount) {
-                            log(
-                              '$selected : ${_selectedProducts.contains(_products[index])} : $oldAmount : $newAmount',
-                            );
-
                             if (selected == false) {
                               if (_selectedProducts.contains(
                                 _products[index],
@@ -127,9 +120,7 @@ class _PricingScreenState extends State<PricingScreen> with AutomaticKeepAliveCl
                             }
                             totalAmount -= oldAmount;
                             totalAmount += newAmount;
-                            log(
-                              'total : $totalAmount, length : ${_selectedProducts.length}',
-                            );
+
                             _cubit.calculateTotalPayment();
                           },
                         );
@@ -220,7 +211,7 @@ class _PricingScreenState extends State<PricingScreen> with AutomaticKeepAliveCl
     await _cubit.close();
     super.dispose();
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }
