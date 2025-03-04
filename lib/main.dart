@@ -18,6 +18,8 @@ class MyApp extends StatelessWidget {
       title: 'StockAxis',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
       ),
       routerConfig: AppRoutes.routerConfig,
     );
