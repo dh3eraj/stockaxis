@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stockaxis/features/products/data/models/pricing_model.dart';
@@ -35,13 +37,9 @@ class _PricingScreenState extends State<PricingScreen>
       appBar: AppBar(
         backgroundColor: Color(0xFFF1F1F1),
         leading: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.arrow_back, color: Color(0xff030303)),
-          ),
+          padding: const EdgeInsets.only(left: 16),
+          child: Icon(Icons.arrow_back, color: Color(0xff030303)),
         ),
-        leadingWidth: 32,
         title: Align(
           alignment: Alignment.centerLeft,
           child: Text('Pricing', style: TextStyle(color: Color(0xff030303))),
@@ -74,7 +72,7 @@ class _PricingScreenState extends State<PricingScreen>
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Color.fromARGB(211, 252, 210, 255),
+                      color: Color(0xFFFFFFFF),
                     ),
                   ),
                 ),
@@ -97,6 +95,18 @@ class _PricingScreenState extends State<PricingScreen>
                 return state.maybeWhen(
                   loadingPricing: () {
                     return Center(child: CircularProgressIndicator.adaptive());
+                  },
+                  loadPricingError: (error) {
+                    return Center(
+                      child: Text(
+                        'Something Went Wrong',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
                   },
                   orElse: () {
                     return ListView.builder(
@@ -132,6 +142,9 @@ class _PricingScreenState extends State<PricingScreen>
               },
               buildWhen: (previous, current) {
                 return previous.maybeWhen(
+                      initial: () {
+                        return true;
+                      },
                       loadingPricing: () {
                         return true;
                       },
@@ -140,6 +153,9 @@ class _PricingScreenState extends State<PricingScreen>
                       },
                     ) &&
                     current.maybeWhen(
+                      loadingPricing: () {
+                        return true;
+                      },
                       loadPricingError: (error) {
                         return true;
                       },
@@ -200,7 +216,7 @@ class _PricingScreenState extends State<PricingScreen>
               ],
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: Platform.isAndroid ? 16 : 40),
         ],
       ),
     );
